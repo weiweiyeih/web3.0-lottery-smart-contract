@@ -65,8 +65,9 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatible {
     bool private s_hasPlayers;
 
     mapping(uint256 => mapping(uint256 => address[])) private s_roundToSelectedNumToAddresses;
-
     mapping(uint256 => address[]) private s_roundToAllPlayers;
+    mapping(uint256 => mapping(address => uint256[])) private s_roundToAddressToSelectedNumbers;
+    mapping(uint256 => uint256) private s_roundToWinningNumer;
 
     //** Eevent */
     event PurchasedTicket(uint256 indexed round, address indexed player, uint256 indexed number);
@@ -118,6 +119,7 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatible {
         }
         s_hasPlayers = true;
         s_roundToSelectedNumToAddresses[s_roundCount][number].push(msg.sender);
+        s_roundToAddressToSelectedNumbers[s_roundCount][msg.sender].push(number);
         s_roundToAllPlayers[s_roundCount].push(msg.sender);
         uint256 commision = (msg.value * i_commisionRate) / 100;
         s_commissionBalance += commision;
@@ -168,6 +170,7 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatible {
     function fulfillRandomWords(uint256, /* requestId */ uint256[] memory randomWords) internal override {
         uint256 luckyNumber = (randomWords[0] % 99) + 1;
         emit DrawnLuckyNumber(s_roundCount, luckyNumber);
+        s_roundToWinningNumer[s_roundCount] = luckyNumber;
 
         s_lotteryState = LotteryState.OPEN;
         s_lastTimeStamp = block.timestamp;
@@ -209,6 +212,18 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatible {
     //** Getter functions */
     function getRoundToSelectedNumToAddresses(uint256 round, uint256 number) external view returns (address[] memory) {
         return s_roundToSelectedNumToAddresses[round][number];
+    }
+
+    function getRoundToAddressToSelectedNumbers(uint256 round, address player)
+        external
+        view
+        returns (uint256[] memory)
+    {
+        return s_roundToAddressToSelectedNumbers[round][player];
+    }
+
+    function getRoundToWinningNumber(uint256 round) external view returns (uint256) {
+        return s_roundToWinningNumer[round];
     }
 
     function getPoolBalance() external view returns (uint256) {

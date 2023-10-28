@@ -79,6 +79,18 @@ contract RaffleTest is Test {
         assertEq(players[0], PLAYER);
     }
 
+    function testBuyTicketUpdatesRoundToAddressToSelectedNumbers(uint256 number) public {
+        number = bound(number, 1, 99);
+        vm.startPrank(PLAYER);
+        lottery.buyTicket{value: costOfATicket}(number);
+        lottery.buyTicket{value: costOfATicket}(1);
+        vm.stopPrank();
+
+        uint256[] memory selectedNums = lottery.getRoundToAddressToSelectedNumbers(1, PLAYER);
+        assertEq(selectedNums[0], number);
+        assertEq(selectedNums[1], 1);
+    }
+
     function testBuyTicketUpdatesPoolBalanceAndCommisionBalance(uint256 number) public {
         number = bound(number, 1, 99);
         vm.prank(PLAYER);
@@ -281,6 +293,7 @@ contract RaffleTest is Test {
 
         assert(uint256(roundCount) == currentRoundCount);
         assert(uint256(luckNumber) > 0 && uint256(luckNumber) < 100);
+        assert(uint256(luckNumber) == lottery.getRoundToWinningNumber(currentRoundCount));
     }
 
     // we have known the lucky number will be 33.

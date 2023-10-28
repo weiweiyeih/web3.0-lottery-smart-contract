@@ -21,7 +21,7 @@ This Solidity smart contract implements a lottery game based on the web3.0 block
 
 ## Features
 
-- Users can purchase lottery tickets by selecting a number ranging from 1 to 99 ,and sending ETH.
+- Users can purchase lottery tickets by selecting a number ranging from 1 to 99, and sending ETH.
 - Chainlink VRF is used for random number generation, making the lottery fair and transparent.
 - Commission fees are collected from ticket sales and can be withdrawn by the contract owner.
 - Prize distribution is performed automatically, with prizes distributed to winners.
