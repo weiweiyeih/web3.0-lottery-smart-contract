@@ -226,6 +226,10 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatible {
         return s_roundToWinningNumer[round];
     }
 
+    function getRoundToAllPlayers(uint256 round) external view returns (address[] memory) {
+        return s_roundToAllPlayers[round];
+    }
+
     function getPoolBalance() external view returns (uint256) {
         return s_poolBalance;
     }
