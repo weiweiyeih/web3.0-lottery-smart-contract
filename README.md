@@ -2,6 +2,10 @@
 
 This is a Solidity smart contract for a web3.0 lottery game, which includes features like purchasing tickets, random number generation, and prize distribution. The contract integrates Chainlink's Verifiable Random Function (VRF) for secure random number generation and Chainlink's Automation.
 
+- Contract deployed on Sepolia testnet: https://sepolia.etherscan.io/address/0x2Ebf67e7F231F2dA9D60052e30a135600e167462
+
+- Frontend demo: https://web3-lottery-frontend-app.vercel.app/
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -103,6 +107,6 @@ forge test --fork-url $SEPOLIA_RPC_URL
 forge coverage
 ```
 
-# Credit
+# Acknowledgments
 
 Learnt from and inspired by https://github.com/Cyfrin/foundry-smart-contract-lottery-f23/tree/main

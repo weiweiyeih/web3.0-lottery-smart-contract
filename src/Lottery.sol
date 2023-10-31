@@ -262,4 +262,8 @@ contract Lottery is VRFConsumerBaseV2, AutomationCompatible {
     function getOwner() external view returns (address) {
         return i_owner;
     }
+
+    function getCostOfTicket() external view returns (uint256) {
+        return i_costOfATicket;
+    }
 }
